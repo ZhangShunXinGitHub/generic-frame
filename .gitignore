@@ -7,6 +7,10 @@ HELP.md
 /common/out/
 /log/
 /serverregister/out/
+/web/out/
+/fileupload/out/
+/server-mysql/out/
+
 
 ### STS ###
 .apt_generated
