@@ -2,10 +2,11 @@ HELP.md
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
-gateway/out/
-server-h2/out/
-common/out/
-log/
+/gateway/out/
+/server-h2/out/
+/common/out/
+/log/
+/serverregister/out/
 
 ### STS ###
 .apt_generated
