@@ -1,4 +1,6 @@
 rootProject.name = 'generic-frame'
 include 'serverregister'
 include 'gateway'
-include 'server'
+include 'server-h2'
+include 'common'
+
