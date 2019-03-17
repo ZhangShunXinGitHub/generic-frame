@@ -1,7 +1,7 @@
-package com.generic.gateway.controller;
+package com.generic.web.controller;
 
-import com.generic.gateway.dto.ThemeInfo;
-import com.generic.gateway.service.ThemeInfoClient;
+import com.generic.web.dto.ThemeInfo;
+import com.generic.web.service.ThemeInfoClient;
 import com.generic.common.exception.ThemeInfoException;
 import com.generic.common.response.ResponseModel;
 import com.generic.common.utils.JsonUtils;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/gateway")
-public class GatewayController {
+@RequestMapping("/web")
+public class WebController {
     @Autowired
     private ThemeInfoClient themeInfoClient;
     @GetMapping("/hello")

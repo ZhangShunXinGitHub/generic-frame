@@ -1,4 +1,4 @@
-package com.generic.gateway.dto;
+package com.generic.web.dto;
 
 import lombok.Data;
 

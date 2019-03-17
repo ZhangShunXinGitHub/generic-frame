@@ -1,6 +1,6 @@
-package com.generic.gateway.service;
+package com.generic.web.service;
 
-import com.generic.gateway.dto.ThemeInfo;
+import com.generic.web.dto.ThemeInfo;
 import com.generic.common.response.ResponseModel;
 import com.generic.common.response.ResponseModelData;
 import org.springframework.cloud.openfeign.FeignClient;

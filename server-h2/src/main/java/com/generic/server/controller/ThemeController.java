@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class ThemeController {
     @Autowired
     private ThemeService themeService;
+
+    @GetMapping("/hello")
+    public ResponseModel hello(){
+        return new ResponseModel("001000","server-h2-themeInfo");
+    }
+
     @PostMapping("/saveThemeInfo")
     public ResponseModel savaThemeInfo(@Validated @RequestBody ThemeInfo themeInfo) throws ThemeInfoException {
         log.info("param ", JSONObject.toJSONString(themeInfo));

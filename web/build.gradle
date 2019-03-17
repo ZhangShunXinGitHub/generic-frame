@@ -1,0 +1,11 @@
+
+group = 'com.generic.web'
+
+dependencies {
+	compile project(":common")
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+}
