@@ -6,3 +6,7 @@ docker stop container_id
 docker rm container_id
 docker exec -it container_name bash
 mysql -u root -p
+
+#解决navicat客户端登录的caching_sha2_password问题
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+FLUSH PRIVILEGES;
