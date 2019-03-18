@@ -1,0 +1,8 @@
+docker pull mysql
+docker run --name generic_user -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+docker ps -a
+docker start container_id
+docker stop container_id
+docker rm container_id
+docker exec -it container_name bash
+mysql -u root -p
