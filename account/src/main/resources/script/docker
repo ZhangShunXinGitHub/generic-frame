@@ -1,5 +1,6 @@
 docker pull mysql
 docker run --name generic_user -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+持久化command docker run -v /var/own/mysqldata:/var/lib/mysql --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
 docker ps -a
 docker start container_id
 docker stop container_id
@@ -9,4 +10,3 @@ mysql -u root -p
 
 #解决navicat客户端登录的caching_sha2_password问题
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
-FLUSH PRIVILEGES;

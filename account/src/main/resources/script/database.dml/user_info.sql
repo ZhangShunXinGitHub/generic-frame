@@ -4,7 +4,7 @@ DELIMITER //
     BEGIN
         DECLARE rowid INT DEFAULT 0;
         DECLARE user_id INT DEFAULT 0;
-        DECLARE user_name CHAR(3) DEFAULT '';
+        DECLARE user_name CHAR(5) DEFAULT '';
         DECLARE name1 CHAR(1);
         DECLARE name2 CHAR(1);
 
