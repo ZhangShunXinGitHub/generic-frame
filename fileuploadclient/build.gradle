@@ -1,10 +1,11 @@
 
-group = 'com.generic.web'
+group = 'com.generic.fileuploadclient'
 
 dependencies {
 	compile project(":common")
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'

@@ -1,6 +1,6 @@
 rootProject.name = 'generic-frame'
 include 'serverregister'
-include 'web'
+include 'fileuploadclient'
 include 'gateway'
 include 'fileupload'
 include 'account'
