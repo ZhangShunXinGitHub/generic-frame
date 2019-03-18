@@ -3,13 +3,13 @@ HELP.md
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 /gateway/out/
-/server-h2/out/
+/theme/out/
 /common/out/
 /log/
 /serverregister/out/
 /web/out/
 /fileupload/out/
-/server-mysql/out/
+/account/out/
 
 
 ### STS ###
