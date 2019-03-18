@@ -3,8 +3,8 @@ include 'serverregister'
 include 'web'
 include 'gateway'
 include 'fileupload'
-include 'server-mysql'
-include 'server-h2'
+include 'account'
+include 'theme'
 include 'common'
 
 
