@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.generic.account.mapper.UserMapper">
+
+    <resultMap type="com.generic.account.po.UserInfo" id="userInfo">
+        <result property="userId" column="user_id" javaType="Long" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" javaType="string" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" javaType="string" jdbcType="VARCHAR"/>
+        <result property="role" column="role"  javaType="Integer" jdbcType="INTEGER"/>
+        <result property="institutionId" column="institution_id"  javaType="string" jdbcType="VARCHAR"/>
+        <result property="officeId" column="office_id"  javaType="string" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time"  javaType="string" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time"  javaType="string" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insertUserInfo" parameterType="com.generic.account.dto.UserInfoDto">
+        INSERT INTO user_info (user_name, user_id, sex, role, institution_id,
+         office_id, create_time)
+        VALUES (#{userName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{sex,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{institutionId,jdbcType=VARCHAR},
+         #{officeId,jdbcType=VARCHAR}, now());
+    </insert>
+
+    <update id="updateUserInfo" parameterType="com.generic.account.dto.UserInfoDto">
+        UPDATE user_info
+        SET user_name = #{userName},
+        sex = #{sex,jdbcType=VARCHAR},
+        role = #{role,jdbcType=INTEGER},
+        institution_id = #{institutionId},
+        office_id = #{officeId,jdbcType=VARCHAR},
+        update_time = now()
+        WHERE
+            user_id=#{userId,jdbcType=BIGINT}
+    </update>
+
+    <select id="queryUserInfo" parameterType="java.lang.Long" resultMap="userInfo">
+        SELECT   user_name, user_id, sex, role, institution_id,
+         office_id, date_format(create_time,"%Y-%m-%d %H:%i:%s") AS create_time,date_format(update_time,"%Y-%m-%d %H:%i:%s") AS update_time FROM user_info WHERE
+        <!--<if test="userId !=null and userId!=0">-->
+            user_id=#{userId,jdbcType=BIGINT}
+        <!--</if>-->
+    </select>
+
+    <select id="listUserInfo" parameterType="com.generic.account.dto.QueryUsersCondDto" resultMap="userInfo">
+        SELECT   user_name, user_id, sex, role, institution_id,
+         office_id, date_format(create_time,"%Y-%m-%d %H:%i:%s") AS create_time,date_format(update_time,"%Y-%m-%d %H:%i:%s") AS update_time FROM user_info WHERE
+        <if test="institutionId !=null and institutionId!=''">
+            institution_id=#{institutionId,jdbcType=VARCHAR}
+        </if>
+        <if test="officeId !=null and officeId!=''">
+         AND   office_id=#{officeId,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime !=null and startTime!=''">
+         AND   create_time &gt;=str_to_date(#{startTime, jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s")
+        </if>
+        <if test="endTime !=null and endTime!=''">
+          AND  create_time &lt;=str_to_date(#{endTime, jdbcType=VARCHAR},"%Y-%m-%d %H:%i:%s")
+        </if>
+    </select>
+</mapper>

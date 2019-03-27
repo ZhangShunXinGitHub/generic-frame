@@ -10,3 +10,13 @@ mysql -u root -p
 
 #解决navicat客户端登录的caching_sha2_password问题
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+
+
+docker pull tutum/mysql
+docker run -d -p 3306:3306 -v /home/walter/softwares/tutum-docker-mysql/data:/var/lib/mysql -e MYSQL_PASS="123456" -t 53cb780844a3
+mysql -u admin -p
+create database generic_user;
+use generic_user;
+show tables;
+exit;
+exit;
