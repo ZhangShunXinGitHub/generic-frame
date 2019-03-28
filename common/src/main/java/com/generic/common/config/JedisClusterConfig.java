@@ -4,6 +4,8 @@ package com.generic.common.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -11,18 +13,32 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 
+import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport {
+@EnableConfigurationProperties(JedisConfigProperties.class)
+public class JedisClusterConfig extends CachingConfigurerSupport {
+    @Resource
+    private JedisConfigProperties jedisConfiguration;
+    @Value("${spring.redis.cluster.nodes}")
+    private String nodes;
+    @Value("${spring.redis.cluster.maxRedirects}")
+    private String maxRedirects;
 
     /**
      * 自定义生成key的规则
@@ -59,22 +75,41 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisCacheManager;
     }
 
-/*    @Bean
-    public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
-        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        return cacheManager;
-        *//*RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-        // 多个缓存的名称,目前只定义了一个
-        rcm.setCacheNames(Arrays.asList("thisredis"));
-        //设置缓存默认过期时间(秒)
-        rcm.setDefaultExpiration(600);
-        return rcm;*//*
-    }*/
-    // 以下两种redisTemplate自由根据场景选择
+    private JedisPoolConfig jedisPoolConfig() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(jedisConfiguration.getMaxIdle());
+        jedisPoolConfig.setMinIdle(jedisConfiguration.getMinIdle());
+        jedisPoolConfig.setMaxTotal(jedisConfiguration.getMaxTotal());
+        jedisPoolConfig.setMaxWaitMillis(jedisConfiguration.getMaxWaitMills());
+        jedisPoolConfig.setTestOnBorrow(jedisConfiguration.isTestOnBorrow());
+        jedisPoolConfig.setTestOnReturn(jedisConfiguration.isTestOnBorrow());
+        return jedisPoolConfig;
+    }
+
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
+    public RedisClusterConfiguration redisClusterConfiguration() {
+        String[] serverArray = nodes.split(",");
+        Set<RedisNode> nodes = new HashSet<>();
+        for (String ipPort : serverArray) {
+            String[] ipPortPair = ipPort.split(":");
+            nodes.add(new RedisNode(ipPortPair[0].trim(), Integer.valueOf(ipPortPair[1].trim())));
+        }
+        RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
+        redisClusterConfiguration.setClusterNodes(nodes);
+        redisClusterConfiguration.setMaxRedirects(Integer.valueOf(maxRedirects));
+        return redisClusterConfiguration;
+    }
+
+    @Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        RedisClusterConfiguration redisClusterConfiguration = redisClusterConfiguration();
+        JedisPoolConfig jedisPoolConfig = jedisPoolConfig();
+        return new JedisConnectionFactory(redisClusterConfiguration, jedisPoolConfig);
+    }
+
+    @Bean
+    public RedisTemplate myRedisTemplate() {
+        StringRedisTemplate template = new StringRedisTemplate(jedisConnectionFactory());
 
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
         Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
@@ -90,6 +125,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.afterPropertiesSet();
         return template;
     }
+
     @Bean
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
