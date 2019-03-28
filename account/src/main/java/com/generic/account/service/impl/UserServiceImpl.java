@@ -10,6 +10,7 @@ import com.generic.account.service.UserService;
 import com.generic.common.constant.ReturnMsg;
 import com.generic.account.vo.PageInfoVO;
 import com.generic.common.service.RedisService;
+import com.generic.common.utils.SnowflakeUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ReturnMsg insertUserInfo(UserInfoDto userInfoDto) {
+        Long userId= SnowflakeUtil.nextId();
+        userInfoDto.setUserId(userId);
         userMapper.insertUserInfo(userInfoDto);
         log.info("insertUserInfo success {}", userInfoDto);
         return AccountEnum.SUCCESS;
