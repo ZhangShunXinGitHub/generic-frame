@@ -8,7 +8,7 @@ import com.generic.account.mapper.UserMapper;
 import com.generic.account.po.UserInfo;
 import com.generic.account.service.UserService;
 import com.generic.common.constant.ReturnMsg;
-import com.generic.common.response.PageInfoVO;
+import com.generic.account.vo.PageInfoVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.generic.common.response;
+package com.generic.account.vo;
 
 import com.github.pagehelper.Page;
 import lombok.AllArgsConstructor;

@@ -4,8 +4,7 @@ import com.generic.account.dto.QueryUsersCondDto;
 import com.generic.account.dto.UserInfoDto;
 import com.generic.account.po.UserInfo;
 import com.generic.common.constant.ReturnMsg;
-import com.generic.common.response.PageInfoVO;
-import java.util.List;
+import com.generic.account.vo.PageInfoVO;
 
 public interface UserService {
     ReturnMsg insertUserInfo(UserInfoDto userInfoDto);
