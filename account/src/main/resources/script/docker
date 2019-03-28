@@ -20,3 +20,23 @@ use generic_user;
 show tables;
 exit;
 exit;
+
+
+#redis
+docker pull redis                                           也可以下载指定版本 docker pull redis：9.0
+docker run -d -p 6382:6379 --name redis01 redis
+docker start container_id
+
+docker exec -it container_name bash
+cat /etc/hosts 容器是隔离的，进入容器后通过此命令查看容器ip
+redis-cli
+SLAVEOF 172.17.0.2 6379
+
+
+docker exec -it container_name bash
+cat /etc/hosts 容器是隔离的，进入容器后通过此命令查看容器ip
+redis-cli
+SLAVEOF 172.17.0.3 6379
+quit
+cd / && touch sentinel.conf
+sentinel monitor mymaster 172.17.0.3 6379 1
