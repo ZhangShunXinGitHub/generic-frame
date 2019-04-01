@@ -1,5 +1,7 @@
 package com.generic.common.config;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
 
 @ConfigurationProperties(prefix = "redis.cluster")
 public class JedisConfigProperties {

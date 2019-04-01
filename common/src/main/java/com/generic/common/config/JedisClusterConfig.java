@@ -1,6 +1,8 @@
 package com.generic.common.config;
 
 
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,6 +90,7 @@ public class JedisClusterConfig extends CachingConfigurerSupport {
 
     @Bean
     public RedisClusterConfiguration redisClusterConfiguration() {
+        System.out.println(nodes);
         String[] serverArray = nodes.split(",");
         Set<RedisNode> nodes = new HashSet<>();
         for (String ipPort : serverArray) {

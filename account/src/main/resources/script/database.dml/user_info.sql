@@ -53,4 +53,4 @@ DELIMITER //
     END //
 DELIMITER ;
 
---call add_user_info(10000000);
+call add_user_info(10000000);
